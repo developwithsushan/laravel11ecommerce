@@ -86,7 +86,7 @@
                                             <i class="icon-eye"></i>
                                         </div>
                                     </a>
-                                    <a href="#">
+                                    <a href="{{ route('admin.product.edit',$product->id) }}">
                                         <div class="item edit">
                                             <i class="icon-edit-3"></i>
                                         </div>
