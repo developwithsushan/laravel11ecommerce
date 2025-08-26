@@ -144,4 +144,41 @@ class AdminController extends Controller
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$imageName);
     }
+
+    public function category_edit($id)
+    {
+        $category = Category::find($id);
+        return view('admin.category-edit', compact('category'));
+    }
+
+    public function category_update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'slug' => [
+                'required',
+                Rule::unique('categories', 'slug')->ignore($request->id),
+            ],
+            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $category = Category::find($id);
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+
+        if ($request->hasFile('image')) {
+            if (File::exists(public_path('uploads/brands').'/'.$category->image)){
+                File::delete(public_path('uploads/brands'.'/'.$category->image));
+            }
+
+            $image = $request->file('image');
+            $file_extension = $request->file('image')->extension();
+            $file_name = Carbon::now()->timestamp.'.'.$file_extension;
+            $this->generateBrandThumbnailImage($image, $file_name);
+            $category->image = $file_name;
+        }
+
+        $category->save();
+        return redirect()->route('admin.categories')->with('status', 'Category updated successfully');
+    }
 }
