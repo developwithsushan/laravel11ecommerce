@@ -71,7 +71,7 @@
                                       <td><a href="javascript:" target="_blank">0</a></td>
                                       <td>
                                           <div class="list-icon-function">
-                                              <a href="#">
+                                              <a href="{{ route('admin.brand.edit', $brand->id) }}">
                                                   <div class="item edit">
                                                       <i class="icon-edit-3"></i>
                                                   </div>
