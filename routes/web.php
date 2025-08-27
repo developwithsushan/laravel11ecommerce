@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthAdmin;
 
 
@@ -26,6 +27,9 @@ Route::put('/cart/decrease-quantity/{rowId}', [CartController::class, 'decrease_
 
 Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove_item'])->name('cart.item.remove');
 Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.empty');
+
+Route::post('/wishlist/add', [WishlistController::class, 'add_to_wishlist'])->name('wishlist.add');
+
 
 
 Route::middleware(['auth'])->group(function () {
