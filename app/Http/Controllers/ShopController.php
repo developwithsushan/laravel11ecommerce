@@ -19,4 +19,7 @@ class ShopController extends Controller
         $rproducts = Product::where('slug', '!=', $product_slug)->get()->take(8);
         return view('details', compact('product', 'rproducts'));
     }
+
+
+
 }
