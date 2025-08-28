@@ -33,11 +33,16 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="add-coupon.html"><i
+                    <a class="tf-button style-1 w208" href="{{ route('admin.coupon.add') }}"><i
                             class="icon-plus"></i>Add new</a>
                 </div>
                 <div class="wg-table table-all-user">
                     <div class="table-responsive">
+
+                        @if(Session::has('status'))
+                            <p class="alert alert-success">{{ Session::get('status') }}</p>
+                        @endif
+
                         <table class="table table-striped table-bordered">
                             <thead>
                             <tr>
@@ -56,7 +61,7 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $coupon->code }}</td>
                                 <td>{{ $coupon->type }}</td>
-                                <td>${{ $coupon->value }}</td>
+                                <td>{{ $coupon->value }}</td>
                                 <td>${{$coupon->cart_value}}</td>
                                 <td>{{ $coupon->expiry_date }}</td>
                                 <td>
