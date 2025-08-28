@@ -14,4 +14,10 @@ class WishlistController extends Controller
         ->associate('App\Models\Product');
         return redirect()->back();
     }
+
+    public function index()
+    {
+        $items = Cart::instance('wishlist')->content();
+        return view('wishlist', compact('items'));
+    }
 }
