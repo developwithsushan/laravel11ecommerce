@@ -6,6 +6,7 @@
         <section class="shop-checkout container">
             <h2 class="page-title">Wishlist</h2>
             <div class="shopping-cart">
+                @if(Cart::instance('wishlist')->content()->count() >0)
                 <div class="cart-table__wrapper">
                     <table class="cart-table">
                         <thead>
@@ -42,22 +43,37 @@
                             </td>
 
                             <td>
-                                <a href="#" class="remove-cart">
+                                <form action="{{ route('wishlist.item.remove', ['rowId' => $item->rowId]) }}" method="POST" id="remove-item-{{$item->id}}">
+                                    @csrf
+                                    @method('DELETE')
+                                <a href="javascript:" class="remove-cart" onclick="document.getElementById('remove-item-{{$item->id}}').submit();">
                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
                                         <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
                                     </svg>
                                 </a>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
                         </tbody>
                     </table>
                     <div class="cart-table-footer">
-
-                        <button class="btn btn-light">UPDATE CART</button>
+                        <form action="{{ route('wishlist.item.clear') }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-light">CLEAR WISHLIST</button>
+                        </form>
                     </div>
                 </div>
+                    @else
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>No Item Found in your wishlist</p>
+                            <a href="{{ route('shop.index') }}" class="btn btn-info">Wishlist Now</a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </section>
     </main>
