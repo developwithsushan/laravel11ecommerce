@@ -39,6 +39,10 @@ Route::post('wishlist/move-to-cart/{rowId}', [WishlistController::class, 'move_t
 Route::post('cart/apply-coupon', [CartController::class, 'apply_coupon_code'])->name('cart.coupon.apply');
 Route::delete('cart/remove-coupon', [CartController::class, 'remove_coupon_code'])->name('cart.coupon.remove');
 
+
+Route::get('checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+
 Route::middleware(['auth'])->group(function () {
   Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
 });
