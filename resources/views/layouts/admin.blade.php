@@ -31,8 +31,7 @@
             <div class="section-menu-left">
                 <div class="box-logo">
                     <a href="{{ route('admin.index') }}" id="site-logo-inner">
-                        <img class="" id="logo_header" alt="" src="{{ asset('images/logo/logo.png') }}"
-                             data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}">
+                        <img id="" src="{{ asset('images/logo/logo.png') }}">
                     </a>
                     <div class="button-show-hide">
                         <i class="icon-menu-left"></i>
@@ -114,7 +113,7 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li class="sub-menu-item">
-                                        <a href="orders.html" class="">
+                                        <a href="{{ route('admin.orders') }}" class="">
                                             <div class="text">Orders</div>
                                         </a>
                                     </li>
@@ -377,7 +376,7 @@
                                             id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="header-user wg-user">
                                                 <span class="image">
-                                                    <img src="images/avatar/user-1.png" alt="">
+                                                    <img src="{{ asset('images/avatar/user-1.png') }}" alt="">
                                                 </span>
                                                 <span class="flex flex-column">
                                                     <span class="body-title mb-2">Kristin Watson</span>
