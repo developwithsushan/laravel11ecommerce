@@ -1,0 +1,180 @@
+@extends('layouts.app')
+
+@section('content')
+    <main class="pt-90" style="padding-top: 0px;">
+        <div class="mb-4 pb-4"></div>
+        <section class="my-account container">
+            <h2 class="page-title">Order's Details</h2>
+            <div class="row">
+                <div class="col-lg-2">
+                    @include('user.account-nav')
+                </div>
+
+                <div class="col-lg-10">
+                    <div class="wg-box mt-5 mb-5">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5>Ordered Details</h5>
+                            </div>
+                            <div class="col-6 text-right">
+                                <a class="btn btn-sm btn-danger" href="http://localhost:8000/account-orders">Back</a>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-transaction">
+                                <tbody>
+                                <tr>
+                                    <th>Order No</th>
+                                    <td>{{ $order->id }}</td>
+                                    <th>Mobile</th>
+                                    <td>{{ $order->phone }}</td>
+                                    <th>Pin/Zip Code</th>
+                                    <td>{{ $order->zip }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="color: black">Order Date</th>
+                                    <td>{{ $order->created_at }}</td>
+                                    <th style="color: black;">Delivered Date</th>
+                                    <td>{{ $order->delivered_date }}</td>
+                                    <th style="color: black;">Canceled Date</th>
+                                    <td>{{ $order->cancelled_date }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Order Status</th>
+                                    <td colspan="5">
+                                       {{ $order->status }}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="wg-box wg-table table-all-user">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5>Ordered Items</h5>
+                            </div>
+                            <div class="col-6 text-right">
+
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">SKU</th>
+                                    <th class="text-center">Category</th>
+                                    <th class="text-center">Brand</th>
+                                    <th class="text-center">Options</th>
+                                    <th class="text-center">Return Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($orderItems as $item)
+                                    <tr>
+
+                                        <td class="pname">
+                                            <div class="image">
+                                                <img src="{{asset('uploads/products/thumbnails')}}/{{$item->product->image}}" alt="" class="image">
+                                            </div>
+                                            <div class="name">
+                                                <a href="{{ route('shop.product.detail',['product_slug' => $item->product->slug]) }}" target="_blank"
+                                                   class="body-title-2">{{ $item->product->name }}</a>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">${{ $item->price }}</td>
+                                        <td class="text-center">{{ $item->quantity }}</td>
+                                        <td class="text-center">{{ $item->product->SKU }}</td>
+                                        <td class="text-center">{{ $item->product->category->name }}</td>
+                                        <td class="text-center">{{ $item->product->brand->name }}</td>
+                                        <td class="text-center">{{ $item->options }}</td>
+                                        <td class="text-center">{{ $item->status == 0 ? 'No' : "Yes" }}</td>
+                                        <td class="text-center">
+                                            <div class="list-icon-function view-icon">
+                                                <div class="item eye">
+                                                    <i class="icon-eye"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+
+                    </div>
+
+                    <div class="wg-box mt-5">
+                        <h5>Shipping Address</h5>
+                        <div class="my-account__address-item col-md-6">
+                            <div class="my-account__address-item__detail">
+                                <p>{{ $order->name }}</p>
+                                <p>{{ $order->locality }}</p>
+                                <p>{{ $order->address }}</p>
+                                <p>{{ $order->city }}, {{ $order->country }}</p>
+                                <p>{{ $order->landmark }}</p>
+                                <p>{{ $order->zip }}</p>
+                                <br>
+                                <p>Mobile : {{ $order->phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wg-box mt-5">
+                        <h5>Transactions</h5>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-transaction">
+                                <tbody>
+                                <tr>
+                                    <th>Subtotal</th>
+                                    <td>{{ $order->subtotal }}</td>
+                                    <th>Tax</th>
+                                    <td>{{ $order->tax }}</td>
+                                    <th>Discount</th>
+                                    <td>{{ $order->discount }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <td>{{ $order->total }}</td>
+                                    <th>Payment Mode</th>
+                                    <td>{{ $transaction->mode }}</td>
+                                    <th>Status</th>
+                                    <td>
+                                        @if($transaction->status == "approved")
+                                            <span class="badge bg-success">Approved</span>
+                                        @elseif($transaction->status == "declined")
+                                            <span class="badge bg-danger">Declined</span>
+                                        @elseif($transaction->status == "refunded")
+                                            <span class="badge bg-secondary">Refunded</span>
+                                        @else
+                                            <span class="badge bg-warning">Pending</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="wg-box mt-5 text-right">
+                        <form action="http://localhost:8000/account-order/cancel-order" method="POST">
+                            <input type="hidden" name="_token" value="3v611ELheIo6fqsgspMOk0eiSZjncEeubOwUa6YT" autocomplete="off">
+                            <input type="hidden" name="_method" value="PUT"> <input type="hidden" name="order_id" value="1">
+                            <button type="submit" class="btn btn-danger">Cancel Order</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+@endsection
