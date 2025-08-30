@@ -37,12 +37,18 @@
                                     <th style="color: black;">Delivered Date</th>
                                     <td>{{ $order->delivered_date }}</td>
                                     <th style="color: black;">Canceled Date</th>
-                                    <td>{{ $order->cancelled_date }}</td>
+                                    <td>{{ $order->canceled_date }}</td>
                                 </tr>
                                 <tr>
                                     <th>Order Status</th>
                                     <td colspan="5">
-                                       {{ $order->status }}
+                                        @if($order->status == 'delivered')
+                                            <span class="badge bg-success">Delivered</span>
+                                        @elseif($order->status == 'cancelled')
+                                            <span class="badge bg-danger">Cancelled</span>
+                                        @else
+                                            <span class="badge bg-warning">Ordered</span>
+                                        @endif
                                     </td>
                                 </tr>
                                 </tbody>
@@ -166,9 +172,10 @@
                     </div>
 
                     <div class="wg-box mt-5 text-right">
-                        <form action="http://localhost:8000/account-order/cancel-order" method="POST">
-                            <input type="hidden" name="_token" value="3v611ELheIo6fqsgspMOk0eiSZjncEeubOwUa6YT" autocomplete="off">
-                            <input type="hidden" name="_method" value="PUT"> <input type="hidden" name="order_id" value="1">
+                        <form action="{{ route('user.order.cancel') }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="order_id" value="{{ $order->id }}">
                             <button type="submit" class="btn btn-danger">Cancel Order</button>
                         </form>
                     </div>
